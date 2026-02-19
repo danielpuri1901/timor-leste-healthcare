@@ -116,6 +116,11 @@ def build_model(data):
     model.addConstr(gp.quicksum(x[j] for j in candidate_hospitals) <= max_new_hospitals,
                    name="max_new_hospitals")
 
+    # Symmetry breaking: lexicographic ordering of candidate hospitals
+    for k in range(len(candidate_hospitals) - 1):
+        model.addConstr(x[candidate_hospitals[k]] >= x[candidate_hospitals[k+1]],
+                       name=f"symmetry_break_{k}")
+
     # Constraint 3: People can only be assigned to opened facilities
     for j in all_hospitals:
         model.addConstr(gp.quicksum(y[i, j] for i in households) <= len(households) * x[j],
