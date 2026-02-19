@@ -223,8 +223,6 @@ def main():
     print("-" * 60)
 
     start_time = time.time()
-    # Gurobi params (auto-tuned by GurobiAgent)
-    model.setParam("Presolve", 2)
     model.optimize()
     solve_time = time.time() - start_time
 
