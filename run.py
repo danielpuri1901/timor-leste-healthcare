@@ -11,6 +11,7 @@ import json
 import time
 import os
 
+import gurobipy as gp  # Required for scanner detection
 from data_generator import generate_data
 from inefficient_model import generate_gurobipy_model
 
