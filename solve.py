@@ -126,11 +126,12 @@ def build_model(data):
         model.addConstr(gp.quicksum(y[i, j] for j in all_hospitals) <= 1,
                        name=f"single_assignment_{i}")
 
-    # Constraint 5: Assignment only allowed if distance is within limit
+    # Constraint 5: Assignment only allowed if distance is within limit (LAZY)
     for i in households:
         for j in all_hospitals:
-            model.addConstr(y[i, j] <= distance_indicators[i][j],
-                           name=f"distance_limit_{i}_{j}")
+            if distance_indicators[i][j] == 0:  # Only add constraint if distance exceeds limit
+                model.addConstr(y[i, j] <= 0,
+                               name=f"distance_limit_{i}_{j}", lazy=1)
 
     return model
 
