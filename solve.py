@@ -178,6 +178,8 @@ def main():
     x = {}
     for j in all_hospitals:
         x[j] = model.addVar(vtype=gp.GRB.BINARY, name=f"x_{j}")
+        # High priority: facility decisions drive the structure
+        x[j].BranchPriority = 10
 
     # Variables: y_{ij} = 1 if household i is served by hospital j
     y = {}
